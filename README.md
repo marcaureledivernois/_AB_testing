@@ -41,6 +41,10 @@ We use **Power Analysis** to compute the sample size that we need in each group 
 2. Alpha value (α) — The critical value (usually set at 0.05). We want to be 1-α% confident it is statistically different.
 3. Effect size — How big of a difference we expect there to be between the conversion rates
 
+# Compute test statistics
+
+If we have a very large sample, we can use the normal approximation for calculating our p-value.
+If p<0.05, we can reject H0: old=new. Hence, if p<0.05, we can conclude that the new product is significantly different.
 
 # Credits
 
