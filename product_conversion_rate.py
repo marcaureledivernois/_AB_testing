@@ -82,3 +82,9 @@ print(f'z statistic: {z_stat:.2f}')
 print(f'p-value: {pval:.3f}')
 print(f'ci 95% for control group: [{lower_con:.3f}, {upper_con:.3f}]')
 print(f'ci 95% for treatment group: [{lower_treat:.3f}, {upper_treat:.3f}]')
+
+#p-value: 0.732
+#ci 95% for control group: [0.114, 0.133]
+#ci 95% for treatment group: [0.116, 0.135]
+
+# p > 0.05 we can't reject H0: p_new = p_old. Our new product is similar to the old product.
