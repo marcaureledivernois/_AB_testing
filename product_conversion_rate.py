@@ -7,8 +7,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 from math import ceil
+from statsmodels.stats.proportion import proportions_ztest, proportion_confint
 
-# How many observations we need in each group ?
+# 1. How many observations we need in each group ?
 effect_size = sms.proportion_effectsize(0.13, 0.15)    # Calculating effect size based on our expected rates
 
 required_n = sms.NormalIndPower().solve_power(
@@ -22,7 +23,7 @@ required_n = ceil(required_n)                          # Rounding up to next who
 
 print(required_n)
 
-# At this point, we would need to run the experiment with required_n in each group.
+# 2. At this point, we would need to run the experiment with required_n in each group.
 df = pd.read_csv('data.csv')
 df.info()
 
@@ -44,3 +45,40 @@ treatment_sample = df[df['group'] == 'treatment'].sample(n=required_n, random_st
 
 ab_test = pd.concat([control_sample, treatment_sample], axis=0)
 ab_test.reset_index(drop=True, inplace=True)
+
+ab_test['group'].value_counts()
+
+conversion_rates = ab_test.groupby('group')['converted']
+
+std_p = lambda x: np.std(x, ddof=0)              # Std. deviation of the proportion
+se_p = lambda x: stats.sem(x, ddof=0)            # Std. error of the proportion (std / sqrt(n))
+
+conversion_rates = conversion_rates.agg([np.mean, std_p, se_p])
+conversion_rates.columns = ['conversion_rate', 'std_deviation', 'std_error']
+
+plt.figure(figsize=(8,6))
+
+sns.barplot(x=ab_test['group'], y=ab_test['converted'], ci=False)
+
+plt.ylim(0, 0.17)
+plt.title('Conversion rate by group', pad=20)
+plt.xlabel('Group', labelpad=15)
+plt.ylabel('Converted (proportion)', labelpad=15)
+plt.show()
+
+# 3. Hypothesis testing
+
+control_results = ab_test[ab_test['group'] == 'control']['converted']
+treatment_results = ab_test[ab_test['group'] == 'treatment']['converted']
+n_con = control_results.count()
+n_treat = treatment_results.count()
+successes = [control_results.sum(), treatment_results.sum()]
+nobs = [n_con, n_treat]
+
+z_stat, pval = proportions_ztest(successes, nobs=nobs)
+(lower_con, lower_treat), (upper_con, upper_treat) = proportion_confint(successes, nobs=nobs, alpha=0.05)
+
+print(f'z statistic: {z_stat:.2f}')
+print(f'p-value: {pval:.3f}')
+print(f'ci 95% for control group: [{lower_con:.3f}, {upper_con:.3f}]')
+print(f'ci 95% for treatment group: [{lower_treat:.3f}, {upper_treat:.3f}]')
