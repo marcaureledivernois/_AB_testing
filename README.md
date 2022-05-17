@@ -28,6 +28,20 @@ design will be considered a success if it raises the conversion rate to 15%.
 Since we test on a sample population and not on the whole user base (our population), 
 the conversion rates that we’ll get will inevitably be only estimates of the true rates.
 
+The number of people (or user sessions) we decide to capture in each group will have an 
+effect on the precision of our estimated conversion rates: the larger the sample size, 
+the more precise our estimates (i.e. the smaller our confidence intervals), 
+the higher the chance to detect a difference in the two groups, if present.
+
+On the other hand, the larger our sample gets, the more expensive (and impractical) our study becomes.
+
+We use **Power Analysis** to compute the sample size that we need in each group and it depends on three factors :
+
+1. Power of the test (1 — β) — This represents the probability of finding a statistical difference between the groups in our test when a difference is actually present. This is usually set at 0.8 by convention.
+2. Alpha value (α) — The critical value (usually set at 0.05). We want to be 1-α% confident it is statistically different.
+3. Effect size — How big of a difference we expect there to be between the conversion rates
+
+
 # Credits
 
 [Towards Data Science](https://towardsdatascience.com/ab-testing-with-python-e5964dd66143)
