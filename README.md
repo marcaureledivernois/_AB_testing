@@ -41,6 +41,12 @@ We use **Power Analysis** to compute the sample size that we need in each group 
 2. Alpha value (α) — The critical value (usually set at 0.05). We want to be 1-α% confident it is statistically different.
 3. Effect size — How big of a difference we expect there to be between the conversion rates
 
+# Rule of thumb
+
+Lehr's (rough) rule of thumb says that the sample size n for a two-sided Two-sample t-test with power 80% (β = 0.2) and significance level α = 0.05 should be:
+
+    n = 16<sup>2</sup> / d<sup>2</sup>
+
 # Compute test statistics
 
 If we have a very large sample, we can use the normal approximation for calculating our p-value.
