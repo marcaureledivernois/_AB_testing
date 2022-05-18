@@ -45,7 +45,7 @@ We use **Power Analysis** to compute the sample size that we need in each group 
 
 Lehr's (rough) rule of thumb says that the sample size n for a two-sided Two-sample t-test with power 80% (β = 0.2) and significance level α = 0.05 should be:
 
-n = 16<sup>2</sup> / d<sup>2</sup>
+n = 16 s<sup>2</sup> / d<sup>2</sup>
 
 # Compute test statistics
 
